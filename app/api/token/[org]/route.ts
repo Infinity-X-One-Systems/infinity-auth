@@ -45,10 +45,11 @@ async function generateJWT(appId: string, privateKey: string) {
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { org: string } }
+  context: { params: Promise<{ org: string }> }
 ) {
   try {
-    const org = params.org
+    const { org } = await context.params
+
     const appId = process.env.GITHUB_APP_ID
     const privateKey = process.env.GITHUB_PRIVATE_KEY
 
